@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="default_radius">100dp</dimen>
+
+    <!-- Buttons -->
+    <dimen name="button_primary_radius">@dimen/default_radius</dimen>
+
+</resources>

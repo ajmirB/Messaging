@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Button style -->
+    <style name="ButtonPrimaryStyle">
+        <item name="android:background">@drawable/button_primary_background_selector</item>
+        <item name="android:textColor">@color/button_primary_text_color</item>
+    </style>
+
 </resources>

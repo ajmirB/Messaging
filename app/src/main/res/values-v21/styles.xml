@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Button style -->
+    <style name="ButtonPrimaryStyle">
+        <item name="android:background">@drawable/button_primary_background_ripple</item>
+        <item name="android:textColor">@color/button_primary_text_color</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+</resources>
