@@ -10,4 +10,9 @@
     <color name="button_primary_background_pressed_color">@color/colorPrimaryDark</color>
     <color name="button_primary_text_color">#FFF</color>
 
+    <!-- Sign In -->
+    <color name="sign_in_nickname_title_text_color">#FFF</color>
+    <color name="sign_in_nickname_subtitle_text_color">@color/colorAccent</color>
+    <color name="sign_in_nickname_input_text_color">#FFF</color>
+
 </resources>

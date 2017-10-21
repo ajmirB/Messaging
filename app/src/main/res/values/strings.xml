@@ -1,3 +1,11 @@
 <resources>
+
     <string name="app_name">Messaging</string>
+
+    <!-- Sign In -->
+    <string name="sign_in_title">@string/app_name</string>
+    <string name="sign_in_subtitle">A social app</string>
+    <string name="sign_in_nickname_input_hint">Enter your nickname</string>
+    <string name="sign_in_button">Log In</string>
+
 </resources>

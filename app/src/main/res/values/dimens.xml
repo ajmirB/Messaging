@@ -6,4 +6,11 @@
     <!-- Buttons -->
     <dimen name="button_primary_radius">@dimen/default_radius</dimen>
 
+    <!-- Sign In -->
+    <dimen name="sign_in_activity_padding">30dp</dimen>
+    <dimen name="sign_in_item_spacing">10dp</dimen>
+    <dimen name="sign_in_title_spacing_bottom">40dp</dimen>
+    <dimen name="sign_in_title_text_size">25sp</dimen>
+    <dimen name="sign_in_subtitle_text_size">15sp</dimen>
+
 </resources>
