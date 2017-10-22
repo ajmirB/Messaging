@@ -17,6 +17,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
+        buildConfigField "String", "SENDBIRD_APPLICATION_ID", SENDBIRD_APPLICATION_ID
     }
     buildTypes {
         release {
@@ -46,6 +48,8 @@ dependencies {
     compile 'com.airbnb.android:epoxy:2.7.0'
     compile 'com.airbnb.android:epoxy-paging:2.7.0'
     kapt 'com.airbnb.android:epoxy-processor:2.7.0'
+
+    compile 'com.sendbird.sdk:sendbird-android-sdk:3.0.38'
 
     compile 'com.facebook.stetho:stetho:1.5.0'
 
