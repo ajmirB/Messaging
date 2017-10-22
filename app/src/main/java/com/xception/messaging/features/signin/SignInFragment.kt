@@ -2,10 +2,11 @@ package com.xception.messaging.features.signin
 
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
+import android.support.v7.widget.AppCompatButton
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ProgressBar
 import com.xception.messaging.R
 import com.xception.messaging.features.channels.ChannelsActivity
 import com.xception.messaging.features.commons.BaseFragment
@@ -14,17 +15,25 @@ class SignInFragment: BaseFragment(), SignInView {
 
     lateinit var mSignInPresenter : SignInPresenter
 
+    lateinit var mInputEditText: TextInputEditText
+
+    lateinit var mButton: AppCompatButton
+
+    lateinit var mProgressBar: ProgressBar
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_sign_in, container, false)
 
         mSignInPresenter = SignInPresenter(this)
 
-        val signInInputEditText: TextInputEditText = view.findViewById(R.id.sign_in_text_input_edit_text)
+        mInputEditText = view.findViewById(R.id.sign_in_text_input_edit_text)
 
-        val signInButton: Button = view.findViewById(R.id.sign_in_button)
-        signInButton.setOnClickListener({
-            mSignInPresenter.onLoginClicked(signInInputEditText.text.toString())
+        mButton = view.findViewById(R.id.sign_in_button)
+        mButton.setOnClickListener({
+            mSignInPresenter.onLoginClicked(mButton.text.toString())
         })
+
+        mProgressBar = view.findViewById(R.id.sign_in_progress_bar)
 
         return view
     }
@@ -46,6 +55,30 @@ class SignInFragment: BaseFragment(), SignInView {
     }
 
     // endregion
+
+    // region Loading View
+
+    override fun showLoadingView() {
+        mInputEditText.isEnabled = false
+        mInputEditText.alpha = 0.5f
+
+        mButton.isEnabled = false
+        mButton.alpha = 0.5f
+
+        mProgressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoadingView() {
+        mInputEditText.isEnabled = true
+        mInputEditText.alpha = 1f
+
+        mButton.isEnabled = true
+        mButton.alpha = 1f
+
+        mProgressBar.visibility = View.INVISIBLE
+    }
+
+    // end region
 
     companion object {
         fun newInstance() = SignInFragment()

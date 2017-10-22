@@ -1,4 +1,4 @@
-package com.xception.messaging.features.commons
+package com.xception.messaging.features.commons.presenter
 
 import io.reactivex.disposables.CompositeDisposable
 

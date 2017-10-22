@@ -4,7 +4,7 @@ import android.arch.paging.KeyedDataSource
 import com.xception.messaging.core.model.BaseMessage
 import com.xception.messaging.core.model.MessageMe
 import com.xception.messaging.core.model.MessageOther
-import com.xception.messaging.features.commons.BasePresenter
+import com.xception.messaging.features.commons.presenter.BasePresenter
 import java.util.*
 
 class ConversationPresenter(mView: ConversationView): BasePresenter<ConversationView>(mView) {

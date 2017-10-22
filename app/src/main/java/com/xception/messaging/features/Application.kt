@@ -9,6 +9,6 @@ class Application: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        SendBird.init(BuildConfig.SENDBIRD_APPLICATION_ID, this)
+        SendBird.init(BuildConfig.SENDBIRD_APPLICATION_ID, applicationContext)
     }
 }
