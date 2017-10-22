@@ -19,9 +19,9 @@ class SignInFragment : BaseFragment(), SignInView {
 
         mSignInPresenter = SignInPresenter(this)
 
-        val signInInputEditText = view.findViewById(R.id.sign_in_text_input_edit_text) as TextInputEditText
+        val signInInputEditText: TextInputEditText = view.findViewById(R.id.sign_in_text_input_edit_text)
 
-        val signInButton = view.findViewById(R.id.sign_in_button) as Button
+        val signInButton: Button = view.findViewById(R.id.sign_in_button)
         signInButton.setOnClickListener({
             mSignInPresenter.onLoginClicked(signInInputEditText.text.toString())
         })
