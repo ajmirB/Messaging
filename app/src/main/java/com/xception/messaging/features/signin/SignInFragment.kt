@@ -60,20 +60,22 @@ class SignInFragment: BaseFragment(), SignInView {
 
     override fun showLoadingView() {
         mInputEditText.isEnabled = false
-        mInputEditText.alpha = 0.5f
+        mInputEditText.animate().alpha(0.5f)
 
         mButton.isEnabled = false
-        mButton.alpha = 0.5f
+        mButton.animate().alpha(0.5f)
 
         mProgressBar.visibility = View.VISIBLE
+        mProgressBar.alpha = 0f
+        mProgressBar.animate().alpha(1f)
     }
 
     override fun hideLoadingView() {
         mInputEditText.isEnabled = true
-        mInputEditText.alpha = 1f
+        mInputEditText.animate().alpha(1f)
 
         mButton.isEnabled = true
-        mButton.alpha = 1f
+        mButton.animate().alpha(1f)
 
         mProgressBar.visibility = View.INVISIBLE
     }

@@ -2,6 +2,9 @@
 
     <string name="app_name">Messaging</string>
 
+    <string name="error_network_service_missing">Connection error, please check your Internet connection and try again</string>
+    <string name="error_app_network_api_unknown">An error has occurred. It has been reported and sent to our technical team.\nPlease try again later.</string>
+
     <!-- Sign In -->
     <string name="sign_in_title">@string/app_name</string>
     <string name="sign_in_subtitle">A social app</string>
