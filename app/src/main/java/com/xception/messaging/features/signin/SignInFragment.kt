@@ -48,6 +48,6 @@ class SignInFragment: BaseFragment(), SignInView {
     // endregion
 
     companion object {
-        fun newInstance() : SignInFragment = SignInFragment()
+        fun newInstance() = SignInFragment()
     }
 }
