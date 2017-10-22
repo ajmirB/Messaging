@@ -10,7 +10,7 @@ open class BasePresenter<T: BasePresenter.View>(protected var mView: T) {
         mCompositeDisposable = CompositeDisposable()
     }
 
-    fun onViewCreated() {}
+    open fun onViewCreated() {}
 
     fun onViewDestroyed() {
         mCompositeDisposable.dispose()

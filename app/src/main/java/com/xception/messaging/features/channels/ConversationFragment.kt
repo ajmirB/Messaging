@@ -1,6 +1,10 @@
 package com.xception.messaging.features.channels
 
+import android.arch.paging.DataSource
+import android.arch.paging.PagedList
+import android.os.AsyncTask
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +13,9 @@ import com.xception.messaging.R
 import com.xception.messaging.core.model.BaseMessage
 import com.xception.messaging.core.model.MessageMe
 import com.xception.messaging.core.model.MessageOther
-import com.xception.messaging.features.channels.items.MessageMeModel_
-import com.xception.messaging.features.channels.items.MessageOtherModel_
+import com.xception.messaging.features.channels.items.ConversationController
 import com.xception.messaging.features.commons.BaseFragment
+import com.xception.messaging.features.commons.UiThreadExecutor
 
 class ConversationFragment: BaseFragment(), ConversationView {
 
@@ -19,35 +23,22 @@ class ConversationFragment: BaseFragment(), ConversationView {
 
     lateinit var mRecyclerView: EpoxyRecyclerView
 
+    lateinit var mConversationController: ConversationController
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_conversation, container, false)
 
         mConversationPresenter = ConversationPresenter(this)
 
         mRecyclerView = view.findViewById(R.id.conversation_epoxy_recycler_view)
-        mRecyclerView.buildModelsWith { controller ->
-            val messages = ArrayList<BaseMessage>(100)
-            for (i in 1..100) {
-                if (i % 3 == 0)
-                    messages.add(MessageMe(i.toString()))
-                else
-                    messages.add(MessageOther(i.toString()))
-            }
 
-            messages.forEach {
-                if (it is MessageMe) {
-                    MessageMeModel_()
-                            .id("message_me" + it.message)
-                            .message(it)
-                            .addTo(controller)
-                } else if (it is MessageOther) {
-                    MessageOtherModel_()
-                            .id("message_other" + it.message)
-                            .message(it)
-                            .addTo(controller)
-                }
-            }
-        }
+        val layoutManager = LinearLayoutManager(activity)
+        // To display the item in the revers order
+        layoutManager.reverseLayout = true
+        mRecyclerView.layoutManager = layoutManager
+
+        mConversationController = ConversationController()
+        mRecyclerView.adapter = mConversationController.adapter
 
         return view
     }
@@ -61,6 +52,27 @@ class ConversationFragment: BaseFragment(), ConversationView {
         super.onDestroyView()
         mConversationPresenter.onViewDestroyed()
     }
+
+    // region ConversationView
+
+    override fun showContent(dataSource: DataSource<Int, BaseMessage>) {
+        val pagedList = PagedList.Builder<Int, BaseMessage>().run {
+            setDataSource(dataSource)
+            setMainThreadExecutor(UiThreadExecutor)
+            setBackgroundThreadExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+            setConfig(PagedList.Config.Builder().run {
+                setEnablePlaceholders(false)
+                setPageSize(20)
+                setInitialLoadSizeHint(20)
+                setPrefetchDistance(50)
+                build()
+            })
+            build()
+        }
+        mConversationController.setList(pagedList)
+    }
+
+    // endregion
 
     companion object {
         fun newInstance() = ConversationFragment()
