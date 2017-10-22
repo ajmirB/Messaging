@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import com.xception.messaging.R
 import com.xception.messaging.features.channels.ChannelsActivity
 import com.xception.messaging.features.commons.BaseFragment
@@ -30,7 +31,7 @@ class SignInFragment: BaseFragment(), SignInView {
 
         mButton = view.findViewById(R.id.sign_in_button)
         mButton.setOnClickListener({
-            mSignInPresenter.onLoginClicked(mButton.text.toString())
+            mSignInPresenter.onLoginClicked(mInputEditText.text.toString())
         })
 
         mProgressBar = view.findViewById(R.id.sign_in_progress_bar)
@@ -49,6 +50,10 @@ class SignInFragment: BaseFragment(), SignInView {
     }
 
     // region SignIn View
+
+    override fun prefillNickname(nickname: String) {
+        mInputEditText.setText(nickname, TextView.BufferType.EDITABLE)
+    }
 
     override fun goToGeneralChannel() {
         startActivity(ChannelsActivity.newIntent(activity))

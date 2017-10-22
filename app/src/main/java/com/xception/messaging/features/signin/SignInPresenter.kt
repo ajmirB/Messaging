@@ -8,7 +8,24 @@ import io.reactivex.schedulers.Schedulers
 
 class SignInPresenter(mView: SignInView): BasePresenter<SignInView>(mView) {
 
-    val mUserManager = UserManager()
+    private val mUserManager = UserManager()
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+
+        // Observe on maybe an already connected user
+        mUserManager.getConnectedUser()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { user ->
+                            // Auto sign in with the stored user information
+                            mView.prefillNickname(user.userId)
+                            onLoginClicked(user.userId)
+                        },
+                        { throwable -> throwable.printStackTrace() }
+                )
+    }
 
     fun onLoginClicked(nickname: String)  {
         if (!DeviceHelper.isNetworkAvailable()){
