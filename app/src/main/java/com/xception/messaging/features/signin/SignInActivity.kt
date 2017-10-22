@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.xception.messaging.R
 import com.xception.messaging.features.commons.BaseActivity
 
-class SignInActivity : BaseActivity() {
+class SignInActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

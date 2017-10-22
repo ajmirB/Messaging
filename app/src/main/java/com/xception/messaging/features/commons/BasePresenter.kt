@@ -2,7 +2,7 @@ package com.xception.messaging.features.commons
 
 import io.reactivex.disposables.CompositeDisposable
 
-open class BasePresenter<T : BasePresenter.View>(protected var mView: T) {
+open class BasePresenter<T: BasePresenter.View>(protected var mView: T) {
 
     protected var mCompositeDisposable: CompositeDisposable
 

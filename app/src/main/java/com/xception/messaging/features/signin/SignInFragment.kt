@@ -10,7 +10,7 @@ import com.xception.messaging.R
 import com.xception.messaging.features.channels.ChannelsActivity
 import com.xception.messaging.features.commons.BaseFragment
 
-class SignInFragment : BaseFragment(), SignInView {
+class SignInFragment: BaseFragment(), SignInView {
 
     lateinit var mSignInPresenter : SignInPresenter
 

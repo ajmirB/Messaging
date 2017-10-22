@@ -7,12 +7,8 @@ import android.view.ViewGroup
 import com.xception.messaging.R
 import com.xception.messaging.features.commons.BaseFragment
 import com.xception.messaging.features.signin.SignInFragment
-import com.xception.messaging.features.signin.SignInPresenter
 
-/**
- * Created by Ajmir Busgeeth on 22/10/2017.
- */
-class ConversationFragment : BaseFragment(), ConversationView {
+class ConversationFragment: BaseFragment(), ConversationView {
 
     lateinit var mConversationPresenter: ConversationPresenter
 

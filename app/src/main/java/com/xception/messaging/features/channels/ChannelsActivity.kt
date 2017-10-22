@@ -7,7 +7,7 @@ import android.os.Bundle
 
 import com.xception.messaging.R
 
-class ChannelsActivity : AppCompatActivity() {
+class ChannelsActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
