@@ -13,4 +13,9 @@
     <dimen name="sign_in_title_text_size">25sp</dimen>
     <dimen name="sign_in_subtitle_text_size">15sp</dimen>
 
+    <!-- Conversation -->
+    <dimen name="conversation_message_spacing">10dp</dimen>
+    <dimen name="conversation_message_text_input_spacing">10dp</dimen>
+    <dimen name="message_inside_spacing">10dp</dimen>
+
 </resources>

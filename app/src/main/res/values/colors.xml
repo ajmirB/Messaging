@@ -15,4 +15,10 @@
     <color name="sign_in_nickname_subtitle_text_color">@color/colorAccent</color>
     <color name="sign_in_nickname_input_text_color">#FFF</color>
 
+    <!-- Conversation -->
+    <color name="message_me_background_color">@color/colorPrimaryDark</color>
+    <color name="message_me_text_color">#FFF</color>
+    <color name="message_other_background_color">#e4e4e4</color>
+    <color name="message_other_text_color">@color/colorPrimaryDark</color>
+
 </resources>

@@ -8,4 +8,7 @@
     <string name="sign_in_nickname_input_hint">Enter your nickname</string>
     <string name="sign_in_button">Log In</string>
 
+    <!-- Conversation -->
+    <string name="conversation_message_text_input_hint">Enter your message</string>
+
 </resources>
