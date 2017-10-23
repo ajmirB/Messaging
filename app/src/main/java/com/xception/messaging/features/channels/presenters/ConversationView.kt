@@ -5,7 +5,9 @@ import com.xception.messaging.features.commons.presenter.BasePresenter
 
 interface ConversationView: BasePresenter.View {
     fun initContent(messages: List<BaseMessage>)
-    fun showContent(messages: List<BaseMessage>)
+    fun addNewMessage(message: BaseMessage)
+    fun addPreviousMessages(messages: List<BaseMessage>)
+
     fun stopPaginate()
     fun resetInputText()
 }

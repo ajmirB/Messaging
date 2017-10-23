@@ -4,12 +4,18 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.TextView
+import com.sendbird.android.SendBird
 import com.xception.messaging.R
 
 
 open class BaseActivity: AppCompatActivity() {
 
     protected var mToolbarTitleTextView: TextView? = null
+
+    override fun onResume() {
+        super.onResume()
+        SendBird.setAutoBackgroundDetection(true)
+    }
 
     override fun setTitle(title: CharSequence?) {
         super.setTitle(title)

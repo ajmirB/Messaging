@@ -66,7 +66,17 @@ class ConversationFragment: BaseFragment(), ConversationView {
     // region ConversationView
 
     override fun initContent(messages: List<BaseMessage>) {
-        showContent(messages)
+        mRecyclerView.buildModelsWith { controller ->
+            messages.forEach {
+                if (it is UserMessage) {
+                    MessageMeModel_()
+                            .id(it.messageId)
+                            .message(it)
+                            .addTo(controller)
+                }
+            }
+        }
+
         mPaginate = PaginateBuilder()
                 .with(mRecyclerView)
                 .setCallback({ mConversationPresenter.onLoadingMore() })
@@ -74,7 +84,18 @@ class ConversationFragment: BaseFragment(), ConversationView {
                 .build()
     }
 
-    override fun showContent(messages: List<BaseMessage>) {
+    override fun addNewMessage(message: BaseMessage) {
+        mRecyclerView.buildModelsWith { controller ->
+            if (message is UserMessage) {
+                MessageMeModel_()
+                        .id(message.messageId)
+                        .message(message)
+                        .addTo(controller)
+            }
+        }
+    }
+
+    override fun addPreviousMessages(messages: List<BaseMessage>) {
         mRecyclerView.buildModelsWith { controller ->
             messages.forEach {
                 if (it is UserMessage) {
