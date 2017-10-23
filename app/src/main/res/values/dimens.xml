@@ -2,20 +2,25 @@
 <resources>
 
     <dimen name="default_radius">100dp</dimen>
+    <dimen name="spacing_normal">10dp</dimen>
 
     <!-- Buttons -->
     <dimen name="button_primary_radius">@dimen/default_radius</dimen>
 
     <!-- Sign In -->
     <dimen name="sign_in_activity_padding">30dp</dimen>
-    <dimen name="sign_in_item_spacing">10dp</dimen>
+    <dimen name="sign_in_item_spacing">@dimen/spacing_normal</dimen>
     <dimen name="sign_in_title_spacing_bottom">40dp</dimen>
     <dimen name="sign_in_title_text_size">25sp</dimen>
     <dimen name="sign_in_subtitle_text_size">15sp</dimen>
 
+    <!-- Channel List -->
+    <dimen name="channel_list_item_outside_spacing">@dimen/spacing_normal</dimen>
+    <dimen name="channel_list_item_inside_spacing">3dp</dimen>
+
     <!-- Conversation -->
-    <dimen name="conversation_message_spacing">10dp</dimen>
-    <dimen name="conversation_message_text_input_spacing">10dp</dimen>
-    <dimen name="message_inside_spacing">10dp</dimen>
+    <dimen name="conversation_message_spacing">@dimen/spacing_normal</dimen>
+    <dimen name="conversation_message_text_input_spacing">@dimen/spacing_normal</dimen>
+    <dimen name="message_inside_spacing">@dimen/spacing_normal</dimen>
 
 </resources>

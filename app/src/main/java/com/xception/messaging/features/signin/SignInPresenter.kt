@@ -14,7 +14,7 @@ class SignInPresenter(mView: SignInView): BasePresenter<SignInView>(mView) {
         super.onViewCreated()
 
         // Observe on maybe an already connected user
-        mUserManager.getConnectedUser()
+        val disposable = mUserManager.getConnectedUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -25,6 +25,7 @@ class SignInPresenter(mView: SignInView): BasePresenter<SignInView>(mView) {
                         },
                         { throwable -> throwable.printStackTrace() }
                 )
+        mCompositeDisposable.add(disposable)
     }
 
     fun onLoginClicked(nickname: String)  {
@@ -34,7 +35,7 @@ class SignInPresenter(mView: SignInView): BasePresenter<SignInView>(mView) {
         }
 
         mView.showLoadingView()
-        mUserManager.signIn(nickname)
+        val disposable = mUserManager.signIn(nickname)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate({ mView.hideLoadingView() })
@@ -45,5 +46,6 @@ class SignInPresenter(mView: SignInView): BasePresenter<SignInView>(mView) {
                             throwable.printStackTrace()
                         }
                 )
+        mCompositeDisposable.add(disposable)
     }
 }

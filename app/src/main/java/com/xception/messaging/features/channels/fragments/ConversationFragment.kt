@@ -1,4 +1,4 @@
-package com.xception.messaging.features.channels
+package com.xception.messaging.features.channels.fragments
 
 import android.arch.paging.DataSource
 import android.arch.paging.PagedList
@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.xception.messaging.R
 import com.xception.messaging.core.model.BaseMessage
-import com.xception.messaging.core.model.MessageMe
-import com.xception.messaging.core.model.MessageOther
+import com.xception.messaging.features.channels.presenters.ConversationPresenter
+import com.xception.messaging.features.channels.presenters.ConversationView
 import com.xception.messaging.features.channels.items.ConversationController
 import com.xception.messaging.features.commons.BaseFragment
 import com.xception.messaging.features.commons.UiThreadExecutor

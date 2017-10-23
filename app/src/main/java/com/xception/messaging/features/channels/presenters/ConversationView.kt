@@ -1,4 +1,4 @@
-package com.xception.messaging.features.channels
+package com.xception.messaging.features.channels.presenters
 
 import android.arch.paging.DataSource
 import com.xception.messaging.core.model.BaseMessage

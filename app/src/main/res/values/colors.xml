@@ -15,6 +15,10 @@
     <color name="sign_in_nickname_subtitle_text_color">@color/colorAccent</color>
     <color name="sign_in_nickname_input_text_color">#FFF</color>
 
+    <!-- Channel List -->
+    <color name="channel_list_name_text_color">@color/colorPrimaryDark</color>
+    <color name="channel_list_url_text_color">@color/colorPrimary</color>
+
     <!-- Conversation -->
     <color name="message_me_background_color">@color/colorPrimaryDark</color>
     <color name="message_me_text_color">#FFF</color>

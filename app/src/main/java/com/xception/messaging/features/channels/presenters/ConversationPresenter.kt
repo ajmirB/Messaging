@@ -1,4 +1,4 @@
-package com.xception.messaging.features.channels
+package com.xception.messaging.features.channels.presenters
 
 import android.arch.paging.KeyedDataSource
 import com.xception.messaging.core.model.BaseMessage
@@ -8,7 +8,7 @@ import com.xception.messaging.features.commons.presenter.BasePresenter
 import java.util.*
 
 class ConversationPresenter(mView: ConversationView): BasePresenter<ConversationView>(mView) {
-
+    
     // Data fetch
     var mMessages = Collections.emptyList<BaseMessage>()
 
