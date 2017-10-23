@@ -5,14 +5,14 @@ import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyModelClass
+import com.sendbird.android.UserMessage
 import com.xception.messaging.R
-import com.xception.messaging.core.model.MessageMe
 
 @EpoxyModelClass(layout = R.layout.conversation_message_me_item)
 abstract class MessageMeModel : EpoxyModel<View>() {
 
     @EpoxyAttribute
-    lateinit var message: MessageMe
+    lateinit var message: UserMessage
 
     override fun bind(view: View?) {
         super.bind(view)

@@ -1,10 +1,12 @@
 package com.xception.messaging.features.channels.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.airbnb.epoxy.EpoxyRecyclerView
+import com.sendbird.android.OpenChannel
 import com.xception.messaging.R
 import com.xception.messaging.features.channels.items.ChannelModel_
 import com.xception.messaging.features.channels.presenters.ChannelItemData
@@ -17,6 +19,16 @@ class ChannelListFragment : BaseFragment(), ChannelListView {
     lateinit var mChannelListPresenter: ChannelListPresenter
 
     lateinit var mRecyclerView: EpoxyRecyclerView
+
+    lateinit var mFragmentListener: Listener
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        if (context is Listener) {
+            mFragmentListener = context
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_channel_list, container, false)
@@ -51,9 +63,17 @@ class ChannelListFragment : BaseFragment(), ChannelListView {
         }
     }
 
+    override fun goToConversation(channel: OpenChannel) {
+        mFragmentListener.showConversation(channel)
+    }
+
     // endregion
 
     companion object {
         fun newInstance() = ChannelListFragment()
+    }
+
+    interface Listener {
+        fun showConversation(channel: OpenChannel)
     }
 }

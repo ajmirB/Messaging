@@ -1,14 +1,16 @@
 package com.xception.messaging.features.channels.presenters
 
 import android.arch.paging.KeyedDataSource
-import com.xception.messaging.core.model.BaseMessage
-import com.xception.messaging.core.model.MessageMe
-import com.xception.messaging.core.model.MessageOther
+import com.sendbird.android.BaseMessage
+import com.xception.messaging.core.manager.ChannelManager
 import com.xception.messaging.features.commons.presenter.BasePresenter
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class ConversationPresenter(mView: ConversationView): BasePresenter<ConversationView>(mView) {
-    
+class ConversationPresenter(mView: ConversationView, val channelUrl: String): BasePresenter<ConversationView>(mView) {
+
+    var mChannelManager = ChannelManager(channelUrl)
+
     // Data fetch
     var mMessages = Collections.emptyList<BaseMessage>()
 
@@ -45,14 +47,9 @@ class ConversationPresenter(mView: ConversationView): BasePresenter<Conversation
     override fun onViewCreated() {
         super.onViewCreated()
 
-        // Dummy data for now
-        mMessages = ArrayList<BaseMessage>(100)
-        for (i in 1..100) {
-            if (i % 3 == 0)
-                mMessages.add(MessageMe(i.toString()))
-            else
-                mMessages.add(MessageOther(i.toString()))
-        }
+        mChannelManager.getPreviousMessage()
+                .subscribeOn(Schedulers.io())
+                .subscribe()
 
         // Display the datasource in the view
         mView.showContent(mDataSource)

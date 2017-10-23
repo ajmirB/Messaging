@@ -9,11 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.airbnb.epoxy.EpoxyRecyclerView
+import com.sendbird.android.BaseMessage
 import com.xception.messaging.R
-import com.xception.messaging.core.model.BaseMessage
+import com.xception.messaging.features.channels.items.ConversationController
 import com.xception.messaging.features.channels.presenters.ConversationPresenter
 import com.xception.messaging.features.channels.presenters.ConversationView
-import com.xception.messaging.features.channels.items.ConversationController
 import com.xception.messaging.features.commons.BaseFragment
 import com.xception.messaging.features.commons.UiThreadExecutor
 
@@ -28,15 +28,18 @@ class ConversationFragment: BaseFragment(), ConversationView {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_conversation, container, false)
 
-        mConversationPresenter = ConversationPresenter(this)
+        val channelUrl = arguments.getString(CHANNEL_URL_KEY)
+
+        mConversationPresenter = ConversationPresenter(this, channelUrl!!)
 
         mRecyclerView = view.findViewById(R.id.conversation_epoxy_recycler_view)
 
-        val layoutManager = LinearLayoutManager(activity)
         // To display the item in the revers order
+        val layoutManager = LinearLayoutManager(activity)
         layoutManager.reverseLayout = true
         mRecyclerView.layoutManager = layoutManager
 
+        // The controller is used for pagination, but it linked with the recycler view by the adapter
         mConversationController = ConversationController()
         mRecyclerView.adapter = mConversationController.adapter
 
@@ -75,6 +78,19 @@ class ConversationFragment: BaseFragment(), ConversationView {
     // endregion
 
     companion object {
-        fun newInstance() = ConversationFragment()
+
+        val TAG = ConversationFragment::class.java.canonicalName
+
+        val CHANNEL_URL_KEY = "CHANNEL_URL_KEY"
+
+        fun newInstance(channelUrl: String): ConversationFragment {
+            val bundle = Bundle()
+            bundle.putString(CHANNEL_URL_KEY, channelUrl)
+
+            val fragment = ConversationFragment()
+            fragment.arguments = bundle
+
+            return fragment
+        }
     }
 }
