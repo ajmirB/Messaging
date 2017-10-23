@@ -1,57 +1,60 @@
 package com.xception.messaging.features.channels.presenters
 
-import android.arch.paging.KeyedDataSource
 import com.sendbird.android.BaseMessage
 import com.xception.messaging.core.manager.ChannelManager
+import com.xception.messaging.core.manager.ChannelsManager
 import com.xception.messaging.features.commons.presenter.BasePresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 
 class ConversationPresenter(mView: ConversationView, val channelUrl: String): BasePresenter<ConversationView>(mView) {
 
-    var mChannelManager = ChannelManager(channelUrl)
+    private lateinit var mChannelManager: ChannelManager
 
     // Data fetch
-    var mMessages = Collections.emptyList<BaseMessage>()
-
-    // Data source which manage paging (display a pageSize item at once)
-    val mDataSource = object: KeyedDataSource<Int, BaseMessage>() {
-
-        override fun getKey(item: BaseMessage): Int =
-                (0 until mMessages.size).firstOrNull { mMessages[it] == item } ?: 0
-
-        override fun loadBefore(currentBeginKey: Int, pageSize: Int): MutableList<BaseMessage> {
-            return if (currentBeginKey == 0) {
-                Collections.emptyList()
-            } else {
-                val begin = Math.max(0, currentBeginKey - pageSize)
-                mMessages.subList(begin, currentBeginKey).toMutableList()
-            }
-        }
-
-        override fun loadAfter(currentEndKey: Int, pageSize: Int): MutableList<BaseMessage> {
-            return if (currentEndKey == mMessages.size - 1) {
-                Collections.emptyList()
-            } else {
-                val end = Math.min(mMessages.size, currentEndKey + 1 + pageSize)
-                mMessages.subList(currentEndKey + 1, end).toMutableList()
-            }
-        }
-
-        override fun loadInitial(pageSize: Int): MutableList<BaseMessage> {
-            val limit = if (pageSize < mMessages.size) pageSize else mMessages.size
-            return mMessages.subList(0, limit).toMutableList()
-        }
-    }
+    var mMessages = ArrayList<BaseMessage>(100)
 
     override fun onViewCreated() {
         super.onViewCreated()
 
+            }
+        }
+        ChannelsManager.getOpenChannel(channelUrl)
+                .subscribeOn(Schedulers.io())
+                .doOnSuccess({ mChannelManager = ChannelManager(it) })
+                .flatMapMaybe({ mChannelManager.getPreviousMessage() })
+                .doOnSuccess { messages -> mMessages.addAll(messages) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { mView.initContent(mMessages) },
+                        { throwable -> throwable.printStackTrace() },
+                        { mView.stopPaginate() }
+                )
+    }
+
+    fun onSendButtonClicked(message: String) {
+        if (!message.isEmpty()) {
+            mChannelManager.sendMessage(message)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { mView.resetInputText() },
+                            { throwable -> throwable.printStackTrace() }
+                    )
+        }
+    }
+
+    fun onLoadingMore() {
         mChannelManager.getPreviousMessage()
                 .subscribeOn(Schedulers.io())
-                .subscribe()
-
-        // Display the datasource in the view
-        mView.showContent(mDataSource)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { messages ->
+                            mMessages.addAll(messages)
+                            mView.showContent(mMessages)
+                        },
+                        { throwable -> throwable.printStackTrace() },
+                        { mView.stopPaginate() }
+                )
     }
 }

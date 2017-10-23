@@ -4,10 +4,29 @@ import com.sendbird.android.OpenChannel
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class ChannelsManager {
+object ChannelsManager {
+
+    // Sendbird set a limit of 10 channel entered
+    private val LIMIT_CHANNEL_ENTERED = 10
 
     // List of already entered channel
     private val mChannelEntered = ArrayList<OpenChannel>(LIMIT_CHANNEL_ENTERED)
+
+    /**
+     * Get channel identified by its url
+     * @parem channelUrl the url of the channel
+     */
+    fun getOpenChannel(channelUrl: String): Single<OpenChannel> {
+        return Single.create<OpenChannel> { subscriber ->
+            OpenChannel.getChannel(channelUrl, { channel, e ->
+                if (e != null) {
+                    subscriber.onError(e)
+                } else {
+                    subscriber.onSuccess(channel)
+                }
+            })
+        }
+    }
 
     /**
      * Get all open channels
@@ -67,10 +86,5 @@ class ChannelsManager {
                 })
             })
         )
-    }
-
-    companion object {
-        // Sendbird set a limit of 10 channel entered
-        val LIMIT_CHANNEL_ENTERED = 10
     }
 }

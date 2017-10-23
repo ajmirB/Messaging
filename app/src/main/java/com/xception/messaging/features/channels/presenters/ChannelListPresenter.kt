@@ -12,13 +12,11 @@ import io.reactivex.schedulers.Schedulers
 
 class ChannelListPresenter(mView: ChannelListView): BasePresenter<ChannelListView>(mView) {
 
-    val mChannelsManager = ChannelsManager()
-
     override fun onViewCreated() {
         super.onViewCreated()
 
         // Fetch channels
-        val disposable = mChannelsManager.getOpenChannels()
+        val disposable = ChannelsManager.getOpenChannels()
                 .flatMapObservable { Observable.fromIterable(it) }
                 .map({ channel ->
                     val itemData = channel.convertToItemData()
@@ -36,7 +34,7 @@ class ChannelListPresenter(mView: ChannelListView): BasePresenter<ChannelListVie
 
     private fun onChannelItemClicked(channel: BaseChannel) {
         if (channel is OpenChannel) {
-            mChannelsManager.enterChannel(channel)
+            ChannelsManager.enterChannel(channel)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(

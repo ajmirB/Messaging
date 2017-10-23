@@ -39,7 +39,8 @@ class ChannelsActivity: BaseActivity(), ChannelListFragment.Listener {
         Log.d("test", "showConversation")
         val conversationFragment = ConversationFragment.newInstance(channel.url)
         supportFragmentManager.beginTransaction()
-                .replace(R.id.activity_fragment_main_container, conversationFragment)
+                .add(R.id.activity_fragment_main_container, conversationFragment)
+                .addToBackStack(null)
                 .commit()
     }
 

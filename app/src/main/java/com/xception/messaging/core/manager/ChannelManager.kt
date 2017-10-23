@@ -1,23 +1,14 @@
 package com.xception.messaging.core.manager
 
 import android.util.Log
-import com.sendbird.android.BaseChannel
-import com.sendbird.android.BaseMessage
-import com.sendbird.android.OpenChannel
-import com.sendbird.android.PreviousMessageListQuery
+import com.sendbird.android.*
 import io.reactivex.Maybe
 import io.reactivex.Single
 
 
-class ChannelManager(channelUrl: String) {
-
-    private var mChannel: BaseChannel
+class ChannelManager(val channel: BaseChannel) {
 
     private var mPreviousMessageListQuery: PreviousMessageListQuery? = null
-
-    init {
-        mChannel = getOpenChannel(channelUrl).blockingGet()
-    }
 
     /**
      * Get channel identified by its url
@@ -43,7 +34,7 @@ class ChannelManager(channelUrl: String) {
         return Maybe.create<List<BaseMessage>> { subscriber ->
             if (mPreviousMessageListQuery == null) {
                 // Store only one query to load all the message link to the channel
-                mPreviousMessageListQuery = mChannel.createPreviousMessageListQuery()
+                mPreviousMessageListQuery = channel.createPreviousMessageListQuery()
             }
 
             // Launch the request to get previous message
@@ -62,8 +53,20 @@ class ChannelManager(channelUrl: String) {
         }
     }
 
+    fun sendMessage(message: String): Single<UserMessage> {
+        return Single.create { subscriber ->
+            channel.sendUserMessage(message, {userMessage, e ->
+                if (e != null) {
+                    subscriber.onError(e)
+                } else {
+                    subscriber.onSuccess(userMessage)
+                }
+            })
+        }
+    }
+
     companion object {
         // Past messages are queried in fixed numbers
-        val LIMIT_PREVIOUS_MESSAGE_PAGED = 20
+        val LIMIT_PREVIOUS_MESSAGE_PAGED = 10
     }
 }
