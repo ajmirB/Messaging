@@ -11,6 +11,9 @@
     <string name="sign_in_nickname_input_hint">Enter your nickname</string>
     <string name="sign_in_button">Log In</string>
 
+    <!-- Channel List -->
+    <string name="channel_list_title">My talks</string>
+
     <!-- Conversation -->
     <string name="conversation_message_text_input_hint">Enter your message</string>
 

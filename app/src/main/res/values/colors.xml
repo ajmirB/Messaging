@@ -5,6 +5,9 @@
     <color name="colorPrimaryDark">#143A52</color>
     <color name="colorAccent">#CDE3EB</color>
 
+    <color name="toolbar_background_color">@color/colorPrimaryDark</color>
+    <color name="toolbar_item_color">#FFF</color>
+
     <!-- Buttons -->
     <color name="button_primary_background_color">@color/colorPrimary</color>
     <color name="button_primary_background_pressed_color">@color/colorPrimaryDark</color>

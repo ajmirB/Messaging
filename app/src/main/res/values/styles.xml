@@ -13,6 +13,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="ToolbarStyle">
+        <item name="android:background">@color/toolbar_background_color</item>
+    </style>
+
     <!-- Button style -->
     <style name="ButtonPrimaryStyle">
         <item name="android:background">@drawable/button_primary_background_selector</item>
