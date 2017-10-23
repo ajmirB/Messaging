@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.sendbird.android.BaseMessage
 import com.sendbird.android.UserMessage
@@ -84,28 +85,20 @@ class ConversationFragment: BaseFragment(), ConversationView {
                 .build()
     }
 
-    override fun addNewMessage(message: BaseMessage) {
-        mRecyclerView.buildModelsWith { controller ->
-            if (message is UserMessage) {
-                MessageMeModel_()
-                        .id(message.messageId)
-                        .message(message)
-                        .addTo(controller)
+    override fun updateContent(messages: List<BaseMessage>) {
+        // Generate the new models
+        val messageModel = ArrayList<EpoxyModel<View>>(messages.size)
+        messages.forEach {
+            if (it is UserMessage) {
+                messageModel.add(
+                        MessageMeModel_()
+                        .id(it.messageId)
+                        .message(it)
+                )
             }
         }
-    }
-
-    override fun addPreviousMessages(messages: List<BaseMessage>) {
-        mRecyclerView.buildModelsWith { controller ->
-            messages.forEach {
-                if (it is UserMessage) {
-                    MessageMeModel_()
-                            .id(it.messageId)
-                            .message(it)
-                            .addTo(controller)
-                }
-            }
-        }
+        // Update the recycler view
+        mRecyclerView.setModels(messageModel)
     }
 
     override fun stopPaginate() {

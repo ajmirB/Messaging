@@ -46,7 +46,7 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
                             { message ->
                                 mView.resetInputText()
                                 mMessages.add(0, message)
-                                mView.addPreviousMessages(mMessages)
+                                mView.updateContent(mMessages)
                             },
                             { throwable -> throwable.printStackTrace() }
                     )
@@ -61,7 +61,7 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
                 .subscribe(
                         { messages ->
                             mMessages.addAll(messages)
-                            mView.addPreviousMessages(mMessages)
+                            mView.updateContent(mMessages)
                         },
                         { throwable -> throwable.printStackTrace() },
                         { mView.stopPaginate() }
@@ -76,7 +76,7 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
                 .subscribe(
                         { message ->
                             mMessages.add(0, message)
-                            mView.addPreviousMessages(mMessages)
+                            mView.updateContent(mMessages)
                         },
                         { throwable -> throwable.printStackTrace() }
                 )
