@@ -1,5 +1,6 @@
 package com.xception.messaging.features.channels.presenters
 
+import com.sendbird.android.BaseChannel
 import com.sendbird.android.BaseMessage
 import com.xception.messaging.features.commons.presenter.BasePresenter
 
@@ -8,4 +9,5 @@ interface ConversationView: BasePresenter.View {
     fun updateContent(messages: List<BaseMessage>)
     fun stopPaginate()
     fun resetInputText()
+    fun goToParticipants(channel: BaseChannel)
 }

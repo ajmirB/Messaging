@@ -17,6 +17,11 @@
         <item name="android:background">@color/toolbar_background_color</item>
     </style>
 
+    <style name="FragmentDefaultStyle">
+        <item name="android:background">@color/default_background</item>
+        <item name="android:clickable">true</item>
+    </style>
+
     <!-- Button style -->
     <style name="ButtonPrimaryStyle">
         <item name="android:background">@drawable/button_primary_background_selector</item>

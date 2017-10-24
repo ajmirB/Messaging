@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/conversation_participants_button"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="@string/conversation_menu_participants_title"
+        android:icon="@drawable/ic_person_24dp"/>
+
+</menu>

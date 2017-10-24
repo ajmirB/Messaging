@@ -91,6 +91,24 @@ class ChannelManager(val channel: BaseChannel) {
         }
     }
 
+    fun getParticipantsList(): Maybe<List<User>> {
+        return if (channel is OpenChannel) {
+            Maybe.create { subscriber ->
+                val userListQuery = channel.createParticipantListQuery()
+                userListQuery.next({participants, e ->
+                    if (e != null) {
+                        subscriber.onError(e)
+                    } else {
+                        subscriber.onSuccess(participants)
+                    }
+                })
+            }
+        } else {
+            // Group channel has to request participants in another way
+            Maybe.empty<List<User>>()
+        }
+    }
+
     companion object {
         // Past messages are queried in fixed numbers
         val LIMIT_PREVIOUS_MESSAGE_PAGED = 5

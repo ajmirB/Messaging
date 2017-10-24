@@ -37,6 +37,10 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
         mCompositeDisposable.add(disposable)
     }
 
+    fun onParticipantsListClick() {
+        mView.goToParticipants(mChannelManager.channel)
+    }
+
     fun onSendButtonClicked(message: String) {
         if (!message.isEmpty()) {
             val disposable = mChannelManager.sendMessage(message)

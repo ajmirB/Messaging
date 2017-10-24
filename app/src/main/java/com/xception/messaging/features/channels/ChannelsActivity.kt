@@ -4,14 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
-import android.util.Log
+import com.sendbird.android.BaseChannel
 import com.sendbird.android.OpenChannel
 import com.xception.messaging.R
 import com.xception.messaging.features.channels.fragments.ChannelListFragment
 import com.xception.messaging.features.channels.fragments.ConversationFragment
+import com.xception.messaging.features.channels.fragments.ParticipantsFragment
 import com.xception.messaging.features.commons.BaseActivity
 
-class ChannelsActivity: BaseActivity(), ChannelListFragment.Listener {
+class ChannelsActivity: BaseActivity(), ChannelListFragment.Listener, ConversationFragment.Listener {
 
     private lateinit var mTopToolbar: Toolbar
 
@@ -36,10 +37,21 @@ class ChannelsActivity: BaseActivity(), ChannelListFragment.Listener {
     // region ChannelListFragment.Listener
 
     override fun showConversation(channel: OpenChannel) {
-        Log.d("test", "showConversation")
         val conversationFragment = ConversationFragment.newInstance(channel.url)
         supportFragmentManager.beginTransaction()
                 .add(R.id.activity_fragment_main_container, conversationFragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    // endregion
+
+    // region ConversationFragment.Listener
+
+    override fun showParticipants(channel: BaseChannel) {
+        val participantsFragment = ParticipantsFragment.newInstance(channel.url)
+        supportFragmentManager.beginTransaction()
+                .add(R.id.activity_fragment_main_container, participantsFragment)
                 .addToBackStack(null)
                 .commit()
     }

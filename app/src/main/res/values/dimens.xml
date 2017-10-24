@@ -23,4 +23,8 @@
     <dimen name="conversation_message_text_input_spacing">@dimen/spacing_normal</dimen>
     <dimen name="message_inside_spacing">@dimen/spacing_normal</dimen>
 
+    <!-- Participants -->
+    <dimen name="participants_item_spacing">15dp</dimen>
+
+
 </resources>
