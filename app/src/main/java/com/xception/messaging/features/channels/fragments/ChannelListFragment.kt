@@ -2,6 +2,7 @@ package com.xception.messaging.features.channels.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class ChannelListFragment : BaseFragment(), ChannelListView {
         mChannelListPresenter = ChannelListPresenter(this)
 
         mRecyclerView = view.findViewById(R.id.channel_list_epoxy_recycler_view)
+        mRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         return view
     }

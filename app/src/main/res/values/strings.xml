@@ -15,6 +15,7 @@
     <string name="channel_list_title">My talks</string>
 
     <!-- Conversation -->
+    <string name="conversation_sender_format_text" formatted="true">%1$s :</string>
     <string name="conversation_message_text_input_hint">Enter your message</string>
     <string name="conversation_menu_participants_title">Participants</string>
 

@@ -62,12 +62,12 @@ class ChannelManager(val channel: BaseChannel) {
     /**
      * Listener on new incoming message
      */
-    fun onMessageIncoming(channelHanderId: String): Observable<BaseMessage> {
+    fun onMessageIncoming(channelHanderId: String): Observable<UserMessage> {
         return Observable.create { subscriber ->
             SendBird.addChannelHandler(channelHanderId, object:SendBird.ChannelHandler() {
                 override fun onMessageReceived(baseChannel: BaseChannel, baseMessage: BaseMessage) {
                     // Add new message to view
-                    if (baseChannel.url == channel.url) {
+                    if (baseChannel.url == channel.url && baseMessage is UserMessage) {
                         subscriber.onNext(baseMessage)
                     }
                 }

@@ -1,9 +1,12 @@
 package com.xception.messaging.features.channels.presenters
 
-import com.sendbird.android.BaseMessage
+import com.sendbird.android.User
 import com.xception.messaging.core.manager.ChannelManager
 import com.xception.messaging.core.manager.ChannelsManager
+import com.xception.messaging.core.store.UserStore
 import com.xception.messaging.features.commons.presenter.BasePresenter
+import com.xception.messaging.helper.toItemData
+import com.xception.messaging.helper.toListItemData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -12,13 +15,19 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
 
     private var CHANNEL_HANDLER_ID = "CHANNEL_INCOMING_MESSAGE_LISTENER"
 
+    private lateinit var mConnectedUser: User
+
     private lateinit var mChannelManager: ChannelManager
 
     // Data fetch
-    var mMessages = ArrayList<BaseMessage>(100)
+    var mMessages = ArrayList<MessageItemData>(100)
 
     override fun onViewCreated() {
         super.onViewCreated()
+
+        val userStore = UserStore()
+        // In conversation, the user is always connected
+        mConnectedUser = userStore.getUser()!!
 
         // Initial messages
         val disposable = ChannelsManager.getOpenChannel(channelUrl)
@@ -28,6 +37,7 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
                     onIncomingMessageListen()
                 })
                 .flatMapMaybe({ mChannelManager.getPreviousMessage() })
+                .map({ it.toListItemData(mConnectedUser) })
                 .doOnSuccess { messages -> mMessages.addAll(messages) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -45,12 +55,13 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
         if (!message.isEmpty()) {
             val disposable = mChannelManager.sendMessage(message)
                     .subscribeOn(Schedulers.io())
+                    .map({ it.toItemData(mConnectedUser) })
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             { message ->
-                                mView.resetInputText()
                                 mMessages.add(0, message)
-                                mView.updateContent(mMessages)
+                                mView.addIncomingMessage(mMessages)
+                                mView.resetInputText()
                             },
                             { throwable -> throwable.printStackTrace() }
                     )
@@ -61,11 +72,12 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
     fun onLoadingMore() {
         val disposable = mChannelManager.getPreviousMessage()
                 .subscribeOn(Schedulers.io())
+                .map({ it.toListItemData(mConnectedUser) })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { messages ->
                             mMessages.addAll(messages)
-                            mView.updateContent(mMessages)
+                            mView.addPreviousMessages(mMessages)
                         },
                         { throwable -> throwable.printStackTrace() },
                         { mView.stopPaginate() }
@@ -76,11 +88,12 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
     private fun onIncomingMessageListen() {
         val incomingMessagedisposable = mChannelManager.onMessageIncoming(CHANNEL_HANDLER_ID)
                 .subscribeOn(Schedulers.io())
+                .map { it.toItemData(mConnectedUser) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { message ->
                             mMessages.add(0, message)
-                            mView.updateContent(mMessages)
+                            mView.addIncomingMessage(mMessages)
                         },
                         { throwable -> throwable.printStackTrace() }
                 )

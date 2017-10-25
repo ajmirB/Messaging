@@ -2,23 +2,20 @@ package com.xception.messaging.features.channels.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
-import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyRecyclerView
-import com.sendbird.android.*
+import com.sendbird.android.BaseChannel
 import com.xception.messaging.R
-import com.xception.messaging.features.channels.items.MessageMeModel_
 import com.xception.messaging.features.channels.presenters.ConversationPresenter
 import com.xception.messaging.features.channels.presenters.ConversationView
+import com.xception.messaging.features.channels.presenters.MessageItemData
 import com.xception.messaging.features.commons.BaseFragment
+import com.xception.messaging.helper.toModel
 import ru.alexbykov.nopaginate.paginate.Paginate
 import ru.alexbykov.nopaginate.paginate.PaginateBuilder
-import java.util.*
 
 
 
@@ -97,15 +94,10 @@ class ConversationFragment: BaseFragment(), ConversationView {
 
     // region ConversationView
 
-    override fun initContent(messages: List<BaseMessage>) {
+    override fun initContent(messages: List<MessageItemData>) {
         mRecyclerView.buildModelsWith { controller ->
-            messages.forEach {
-                if (it is UserMessage) {
-                    MessageMeModel_()
-                            .id(it.messageId)
-                            .message(it)
-                            .addTo(controller)
-                }
+            messages.toModel().forEach {
+                it.addTo(controller)
             }
         }
 
@@ -116,20 +108,13 @@ class ConversationFragment: BaseFragment(), ConversationView {
                 .build()
     }
 
-    override fun updateContent(messages: List<BaseMessage>) {
-        // Generate the new models
-        val messageModel = ArrayList<EpoxyModel<View>>(messages.size)
-        messages.forEach {
-            if (it is UserMessage) {
-                messageModel.add(
-                        MessageMeModel_()
-                        .id(it.messageId)
-                        .message(it)
-                )
-            }
-        }
-        // Update the recycler view
-        mRecyclerView.setModels(messageModel)
+    override fun addPreviousMessages(messages: List<MessageItemData>) {
+        mRecyclerView.setModels(messages.toModel())
+    }
+
+    override fun addIncomingMessage(messages: List<MessageItemData>) {
+        mRecyclerView.setModels(messages.toModel())
+        mRecyclerView.smoothScrollToPosition(0)
     }
 
     override fun stopPaginate() {

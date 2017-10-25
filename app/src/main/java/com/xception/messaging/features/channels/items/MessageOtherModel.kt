@@ -5,18 +5,22 @@ import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyModelClass
-import com.sendbird.android.UserMessage
 import com.xception.messaging.R
+import com.xception.messaging.features.channels.presenters.MessageOtherItemData
 
 @EpoxyModelClass(layout = R.layout.conversation_message_other_item)
 abstract class MessageOtherModel : EpoxyModel<View>() {
 
     @EpoxyAttribute
-    lateinit var message: UserMessage
+    lateinit var message: MessageOtherItemData
 
     override fun bind(view: View?) {
         super.bind(view)
-        val textView: TextView = view!!.findViewById(R.id.message_other_text_view)
-        textView.text = message.message
+
+        val senderTextView: TextView = view!!.findViewById(R.id.message_other_sender_name_text_view)
+        senderTextView.text = view.context.getString(R.string.conversation_sender_format_text, message.senderName)
+
+        val messageTextView: TextView = view.findViewById(R.id.message_other_text_view)
+        messageTextView.text = message.message
     }
 }
