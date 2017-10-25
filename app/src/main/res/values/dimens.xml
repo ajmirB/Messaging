@@ -6,6 +6,7 @@
 
     <!-- Buttons -->
     <dimen name="button_primary_radius">@dimen/default_radius</dimen>
+    <dimen name="floating_action_button_margin">20dp</dimen>
 
     <!-- Sign In -->
     <dimen name="sign_in_activity_padding">30dp</dimen>

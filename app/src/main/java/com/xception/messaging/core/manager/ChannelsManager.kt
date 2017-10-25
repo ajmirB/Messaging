@@ -26,7 +26,7 @@ object ChannelsManager {
      * Get all open channels
      */
     fun getOpenChannels(): Single<List<OpenChannel>> {
-        return Single.create<List<OpenChannel>>({ subscriber ->
+        return Single.create<List<OpenChannel>> { subscriber ->
             val channelListQuery = OpenChannel.createOpenChannelListQuery()
             channelListQuery.next({ channels, error ->
                 if (error != null) {
@@ -35,7 +35,7 @@ object ChannelsManager {
                     subscriber.onSuccess(channels)
                 }
             })
-        })
+        }
     }
 
     /**
@@ -44,7 +44,7 @@ object ChannelsManager {
      */
     fun enterChannel(channel: OpenChannel): Completable {
         // Request to enter in the channel
-        return Completable.create({ subscriber ->
+        return Completable.create { subscriber ->
                 channel.enter({ e ->
                     if (e != null) {
                         subscriber.onError(e)
@@ -52,6 +52,18 @@ object ChannelsManager {
                         subscriber.onComplete()
                     }
                 })
+            }
+    }
+
+    fun createOpenChannel(name: String): Single<OpenChannel> {
+        return Single.create { subcriber ->
+            OpenChannel.createChannel(name, null, null, null, { openChannel, e ->
+                if (e != null) {
+                    subcriber.onError(e)
+                } else {
+                    subcriber.onSuccess(openChannel)
+                }
             })
+        }
     }
 }

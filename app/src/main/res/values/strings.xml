@@ -14,6 +14,12 @@
     <!-- Channel List -->
     <string name="channel_list_title">My talks</string>
 
+    <!-- Channel creation -->
+    <string name="channel_creation_title">Open a new talk</string>
+    <string name="channel_creation_input_hint">Enter the talk name</string>
+    <string name="channel_creation_create_button">Create</string>
+    <string name="channel_creation_cancel_button">Cancel</string>
+
     <!-- Conversation -->
     <string name="conversation_sender_format_text" formatted="true">%1$s :</string>
     <string name="conversation_message_text_input_hint">Enter your message</string>

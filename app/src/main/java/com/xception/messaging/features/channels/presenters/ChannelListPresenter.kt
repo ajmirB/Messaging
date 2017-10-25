@@ -1,6 +1,5 @@
 package com.xception.messaging.features.channels.presenters
 
-import android.view.View
 import com.sendbird.android.BaseChannel
 import com.sendbird.android.OpenChannel
 import com.xception.messaging.core.manager.ChannelsManager
@@ -12,11 +11,14 @@ import io.reactivex.schedulers.Schedulers
 
 class ChannelListPresenter(mView: ChannelListView): BasePresenter<ChannelListView>(mView) {
 
-    override fun onViewCreated() {
-        super.onViewCreated()
+    private var mChannelItemsData = ArrayList<ChannelItemData>(10).toMutableList()
 
-        // Fetch channels
+    override fun onViewResumed() {
+        super.onViewResumed()
+
+        // Fetch channel list from sendbird backend
         val disposable = ChannelsManager.getOpenChannels()
+                .subscribeOn(Schedulers.io())
                 .flatMapObservable { Observable.fromIterable(it) }
                 .map({ channel ->
                     val itemData = channel.convertToItemData()
@@ -24,9 +26,32 @@ class ChannelListPresenter(mView: ChannelListView): BasePresenter<ChannelListVie
                     return@map itemData
                 })
                 .toList()
-                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { channels -> mView.showContent(channels) },
+                        { channels ->
+                            mChannelItemsData = channels
+                            mView.showContent(mChannelItemsData)
+                        },
+                        { throwable -> throwable.printStackTrace() }
+                )
+        mCompositeDisposable.add(disposable)
+    }
+
+    fun onAskToCreateChannelClicked() {
+        mView.showChannelCreationForm()
+    }
+
+    fun onCreateChannelConfirmationClicked(channelName: String) {
+        val disposable = ChannelsManager.createOpenChannel(channelName)
+                .subscribeOn(Schedulers.io())
+                .doOnSuccess { channel ->
+                    val itemData = channel.convertToItemData()
+                    itemData.onClickListener = android.view.View.OnClickListener { onChannelItemClicked(channel) }
+                    mChannelItemsData.add(0, itemData)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { channel -> mView.showContent(mChannelItemsData) },
                         { throwable -> throwable.printStackTrace() }
                 )
         mCompositeDisposable.add(disposable)
