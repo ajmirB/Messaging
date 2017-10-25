@@ -18,11 +18,14 @@
     <!-- Channel List -->
     <dimen name="channel_list_item_outside_spacing">@dimen/spacing_normal</dimen>
     <dimen name="channel_list_item_inside_spacing">3dp</dimen>
+    <dimen name="channel_list_item_icon_size">36dp</dimen>
 
     <!-- Conversation -->
     <dimen name="conversation_message_spacing">@dimen/spacing_normal</dimen>
     <dimen name="conversation_message_text_input_spacing">@dimen/spacing_normal</dimen>
     <dimen name="conversation_message_sender_name_text_size">10sp</dimen>
+    <dimen name="conversation_message_sender_image_size">32dp</dimen>
+    <dimen name="conversation_message_sender_image_spacing_with_bubble">5dp</dimen>
     <dimen name="message_inside_spacing">@dimen/spacing_normal</dimen>
 
     <!-- Participants -->

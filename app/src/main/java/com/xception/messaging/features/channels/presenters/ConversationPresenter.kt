@@ -51,9 +51,9 @@ class ConversationPresenter(mView: ConversationView, private val channelUrl: Str
         mView.goToParticipants(mChannelManager.channel)
     }
 
-    fun onSendButtonClicked(message: String) {
-        if (!message.isEmpty()) {
-            val disposable = mChannelManager.sendMessage(message)
+    fun onSendButtonClicked(sendMessage: String) {
+        if (!sendMessage.isEmpty()) {
+            val disposable = mChannelManager.sendMessage(sendMessage)
                     .subscribeOn(Schedulers.io())
                     .map({ it.toItemData(mConnectedUser) })
                     .observeOn(AndroidSchedulers.mainThread())

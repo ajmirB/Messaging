@@ -9,7 +9,7 @@
     android:gravity="center">
 
     <ImageView
-        android:id="@+id/conversation_message_other_bubble_effect_view"
+        android:id="@+id/conversation_message_other_bubble_triangle_view"
         android:layout_width="10dp"
         android:layout_height="15dp"
         android:tint="@color/message_me_background_color"
@@ -28,7 +28,7 @@
         android:background="@color/message_me_background_color"
         android:textColor="@color/message_me_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/conversation_message_other_bubble_effect_view"
+        app:layout_constraintRight_toLeftOf="@+id/conversation_message_other_bubble_triangle_view"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Message from me"

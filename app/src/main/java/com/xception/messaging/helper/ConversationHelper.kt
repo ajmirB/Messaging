@@ -18,7 +18,7 @@ fun UserMessage.toItemData(connectedUser: User): MessageItemData {
         MessageMeItemData(this.messageId, message)
     } else {
         // Message from other
-        MessageOtherItemData(messageId, message, sender.userId)
+        MessageOtherItemData(messageId, message, sender.userId, sender.profileUrl)
     }
 }
 

@@ -4,4 +4,4 @@ abstract class MessageItemData()
 
 data class MessageMeItemData(val messageId: Long, val message: String): MessageItemData()
 
-data class MessageOtherItemData(val messageId: Long, val message: String, val senderName: String): MessageItemData()
+data class MessageOtherItemData(val messageId: Long, val message: String, val senderName: String, val senderImgUrl: String): MessageItemData()
